@@ -1,6 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>ဗီဒီယိုလင့်ခ်ကို ထည့်ပါ</h1>
-    <input type="text" placeholder="YouTube URL...">
-    <button>Analyze</button>
+<div style="text-align: center; margin-top: 30px;">
+    <h1>ClipGenie AI Dashboard</h1>
+    <p>သင်အသုံးပြုလိုသော ဝန်ဆောင်မှုကို ရွေးချယ်ပါ</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px;">
+        
+        <div style="background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155;">
+            <h3>🔗 Link Videos</h3>
+            <p>YouTube Link မှ ဗီဒီယိုများကို ဘာသာပြန်ခြင်းနှင့် Edit လုပ်ခြင်း။</p>
+            <input type="text" placeholder="YouTube URL..." style="width: 90%; padding: 8px; margin-bottom: 10px;">
+            <button style="background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Analyze</button>
+        </div>
+
+        <div style="background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155;">
+            <h3>🎥 AI Video Generation</h3>
+            <p>Text သို့မဟုတ် Image မှ AI ဗီဒီယိုအသစ် ဖန်တီးပေးခြင်း။</p>
+            <button style="background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Create Video</button>
+        </div>
+
+        <div style="background: #1e293b; padding: 20px; border-radius: 10px; border: 1px solid #334155;">
+            <h3>🖼️ AI Photo Editing</h3>
+            <p>AI ကိုသုံး၍ ပုံများကို ပြင်ဆင်ခြင်းနှင့် ဖန်တီးခြင်း။</p>
+            <button style="background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Edit Photo</button>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
