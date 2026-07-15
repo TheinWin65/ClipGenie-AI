@@ -1,30 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ClipGenie AI</title>
-</head>
-<body>
-    <h1>ClipGenie AI</h1>
-    <input type="text" id="user_input" placeholder="လင့်ခ် သို့ စာရိုက်ပါ">
-    <button onclick="sendMessage()">Send</button>
-    <p id="result"></p> <h3>History:</h3>
-    <div id="history"></div>
+{% extends 'base.html' %}
 
-    <script>
-    function sendMessage() {
-        const message = document.getElementById('user_input').value;
-        fetch('/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({message: message})
-        })
-        .then(response => response.json())
-        .then(data => {
-            // အဖြေကို result ဆိုတဲ့ ID ရှိတဲ့ နေရာမှာ ပြမယ်
-            document.getElementById('result').innerText = data.response;
-        })
-        .catch(error => {
-            document.getElementById('result').innerText = "Error ဖြစ်နေပါတယ်...";
-        });
-    }
-</script>
+{% block content %}
+    <h1 style="text-align: center; margin-top: 50px;">ဗီဒီယိုလင့်ခ်ကို ထည့်ပါ</h1>
+    <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <input type="text" placeholder="YouTube URL ကို ဒီမှာကူးထည့်ပါ..." 
+               style="width: 70%; padding: 15px; border-radius: 8px; border: none;">
+        <button style="padding: 15px 30px; margin-left: 10px; background-color: #8b5cf6; color: white; border: none; border-radius: 8px;">Analyze</button>
+    </div>
+{% endblock %}
