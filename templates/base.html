@@ -1,17 +1,26 @@
-{% block content %}
-<div style="max-width: 800px; margin: 50px auto; background-color: #1e293b; padding: 30px; border-radius: 12px; border: 1px solid #334155;">
-    <h2 style="color: #8b5cf6; margin-bottom: 20px; text-align: center;">Video Processing History</h2>
-    
-    <div style="color: #94a3b8; text-align: center; padding: 20px;">
-        <p>လက်ရှိအချိန်ထိ ပြုလုပ်ခဲ့သော ဗီဒီယိုအနှစ်ချုပ် မှတ်တမ်းများ မရှိသေးပါ။</p>
-        <p>ဗီဒီယိုအသစ်များ စတင်ပြုလုပ်ရန် <b>New Chat</b> ကို နှိပ်ပါ။</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClipGenieAI</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; }
+        .navbar { background: #1e293b; padding: 15px; display: flex; justify-content: space-between; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 15px; font-weight: bold; }
+        .container { padding: 20px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div>ClipGenieAI</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/history">History</a>
+            <a href="/">New Chat</a>
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %} {% endblock %}
     </div>
-
-    <ul style="list-style: none; padding: 0;">
-        <li style="background-color: #0f172a; padding: 15px; margin-bottom: 10px; border-radius: 8px;">
-            <span style="color: #f1f5f9;">YouTube Video Title Example 1</span>
-            <span style="float: right; color: #8b5cf6;">Completed</span>
-        </li>
-    </ul>
-</div>
-{% endblock %}
+</body>
+</html>
