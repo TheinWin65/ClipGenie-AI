@@ -19,6 +19,13 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 with app.app_context():
     db.create_all()
+    with app.app_context():
+    db.create_all()
+    # admin user မရှိရင် အလိုအလျောက် ထည့်ပေးမယ်
+    if not User.query.filter_by(username='admin').first():
+        new_user = User(username='admin', password='password123', credit=50)
+        db.session.add(new_user)
+        db.session.commit()
 
 @app.route('/')
 def index():
