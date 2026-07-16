@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 from models import db, User
 
 app = Flask(__name__)
@@ -7,24 +7,23 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-# Database ထဲမှာ Test User ကြိုထည့်ပေးမည့် အပိုင်း
+# Database ထဲမှာ Test User ကြိုထည့်ပေးမည့်စနစ်
 def init_db_data():
     with app.app_context():
         db.create_all()
-        # User မရှိသေးရင်ပဲ ထည့်မယ်
         if not User.query.filter_by(username='admin').first():
             test_user = User(username='admin', password='123', credit=50)
             db.session.add(test_user)
             db.session.commit()
 
-init_db_data() # အပေါ်က function ကို ခေါ်လိုက်တာပါ
+init_db_data()
 
 @app.route('/')
 def index():
-    # လက်ရှိမှာ admin ဆိုတဲ့ user ကိုပဲ ပြထားတာပါ
+    # Home page မှာ လက်ရှိ Test User (admin) ရဲ့ Credit ကို ပြပေးမယ်
     user = User.query.filter_by(username='admin').first()
-    credit_value = user.credit if user else 0
-    return render_template('index.html', credit=credit_value)
+    credit = user.credit if user else 0
+    return render_template('index.html', credit=credit)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -39,4 +38,17 @@ def login():
             return "Username သို့မဟုတ် Password မှားယွင်းနေပါသည်။"
     return render_template('login.html')
 
-# ... (အခြား route များ)
+@app.route('/video-gen')
+def video_gen():
+    return render_template('video_gen.html')
+
+@app.route('/photo-edit')
+def photo_edit():
+    return render_template('photo_edit.html')
+
+@app.route('/history')
+def history():
+    return "မှတ်တမ်းများ ဤနေရာတွင် ပေါ်လာပါမည်။"
+
+if __name__ == '__main__':
+    app.run(debug=True)
