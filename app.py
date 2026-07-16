@@ -1,19 +1,14 @@
 import os
+import base64
+import io
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from rembg import remove
 from PIL import Image
-import io
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clipgenie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Folder များ သတ်မှတ်ခြင်း
-UPLOAD_FOLDER = 'static/uploads'
-PROCESSED_FOLDER = 'static/processed'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
 
 db = SQLAlchemy(app)
 
@@ -24,13 +19,9 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     credit = db.Column(db.Integer, default=50)
 
-# Folder များ ရှိမရှိ စစ်ဆေးပြီး ဆောက်ပေးခြင်း
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(PROCESSED_FOLDER, exist_ok=True)
-
+# App စတင်ချိန်တွင် Database တည်ဆောက်ခြင်း
 with app.app_context():
-    db.create_all()              
-    # အမြဲ Login ဝင်နိုင်ရန် Admin User ထည့်ပေးခြင်း
+    db.create_all()
     if not User.query.filter_by(username='admin').first():
         db.session.add(User(username='admin', password='password123', credit=50))
         db.session.commit()
@@ -55,24 +46,19 @@ def dashboard():
 
 @app.route('/photo-edit', methods=['GET', 'POST'])
 def photo_edit():
-    result_image = None
+    result_image_b64 = None
     if request.method == 'POST':
         file = request.files['file']
         if file:
-            # ပုံကို သိမ်းမယ်
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
-            
-            # AI နောက်ခံဖျက်ခြင်း
-            input_image = Image.open(filepath)
+            input_image = Image.open(file)
             output_image = remove(input_image)
             
-            # ဖိုင်နာမည်သတ်မှတ်ပြီး သိမ်းမယ်
-            result_filename = "processed_" + file.filename
-            output_image.save(os.path.join(app.config['PROCESSED_FOLDER'], result_filename))
-            result_image = result_filename
+            # ပုံကို Base64 အဖြစ် ပြောင်းခြင်း (Folder သိမ်းစရာမလိုတော့ပါ)
+            buffered = io.BytesIO()
+            output_image.save(buffered, format="PNG")
+            result_image_b64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
             
-    return render_template('photo_edit.html', result_image=result_image)
+    return render_template('photo_edit.html', result_image=result_image_b64)
 
 if __name__ == '__main__':
     app.run(debug=True)
