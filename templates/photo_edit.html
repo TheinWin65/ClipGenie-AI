@@ -1,9 +1,40 @@
 <!DOCTYPE html>
-<html>
-<head><title>AI Photo Editor</title></head>
-<body style="background:#0f172a; color:white; padding:20px;">
-    <h1>🖼️ AI Photo Editing Page</h1>
-    <p>ဒီမှာ ပုံပြင်ဆင်တဲ့အပိုင်း ဖြစ်လာပါမယ်။</p>
-    <a href="/" style="color:white;">🔙 Dashboard သို့ပြန်သွားရန်</a>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Photo Editing</title>
+    <style>
+        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; padding-bottom: 80px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; text-align: center; }
+        .card { background: #1e293b; padding: 30px; border-radius: 15px; }
+        input[type="file"] { margin-top: 20px; }
+        button { background: #8b5cf6; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
+        
+        /* Bottom Nav CSS */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; }
+        .nav-item { color: #94a3b8; text-decoration: none; font-size: 12px; text-align: center; }
+        .nav-item:hover { color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>🖼️ AI Photo Editing</h1>
+        <p>ပြင်ဆင်လိုသော ပုံကို ရွေးချယ်ပါ</p>
+        <input type="file" accept="image/*">
+        <br>
+        <button>Remove Background</button>
+        <button>Enhance Quality</button>
+    </div>
+</div>
+
+<div class="bottom-nav">
+    <a href="/" class="nav-item">🏠<br>Home</a>
+    <a href="/video-gen" class="nav-item">🎥<br>Create</a>
+    <a href="/photo-edit" class="nav-item">🖼️<br>Edit</a>
+    <a href="/history" class="nav-item">📜<br>History</a>
+</div>
+
 </body>
 </html>

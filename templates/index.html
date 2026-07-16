@@ -5,25 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClipGenie AI Dashboard</title>
     <style>
-        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: auto; text-align: center; }
+        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; padding-bottom: 80px; }
+        .container { max-width: 1000px; margin: auto; text-align: center; padding: 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
         .card { background: #1e293b; padding: 20px; border-radius: 15px; }
         input { width: 80%; padding: 10px; margin-top: 10px; border-radius: 5px; border: none; }
         button { background: #3b82f6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-        a { text-decoration: none; }
+        
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1e293b;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #334155;
+            z-index: 1000;
+        }
+        .nav-item { color: #94a3b8; text-decoration: none; font-size: 12px; text-align: center; }
+        .nav-item:hover { color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>ClipGenie AI Dashboard</h1>
+    <h1>ClipGenie AI</h1>
     <p>သင်အသုံးပြုလိုသော ဝန်ဆောင်မှုကို ရွေးချယ်ပါ</p>
 
     <div class="grid">
         <div class="card">
             <h3>🔗 Link Videos</h3>
-            <p>YouTube Link မှ ဗီဒီယိုများကို အနှစ်ချုပ်ခြင်း</p>
             <form action="/analyze" method="POST">
                 <input type="text" name="video_url" placeholder="YouTube URL..." required>
                 <br>
@@ -33,16 +47,23 @@
 
         <div class="card">
             <h3>🎥 AI Video Generation</h3>
-            <p>Text သို့မဟုတ် Image မှ AI ဗီဒီယိုအသစ် ဖန်တီးပေးခြင်း</p>
+            <p>Text မှ AI ဗီဒီယို ဖန်တီးရန်</p>
             <a href="/video-gen"><button>Create Video</button></a>
         </div>
 
         <div class="card">
             <h3>🖼️ AI Photo Editing</h3>
-            <p>AI ကိုသုံး၍ ပုံများကို ပြင်ဆင်ခြင်းနှင့် ဖန်တီးခြင်း</p>
+            <p>AI သုံး၍ ပုံများပြင်ဆင်ရန်</p>
             <a href="/photo-edit"><button>Edit Photo</button></a>
         </div>
     </div>
+</div>
+
+<div class="bottom-nav">
+    <a href="/" class="nav-item">🏠<br>Home</a>
+    <a href="/video-gen" class="nav-item">🎥<br>Create</a>
+    <a href="/photo-edit" class="nav-item">🖼️<br>Edit</a>
+    <a href="/history" class="nav-item">📜<br>History</a>
 </div>
 
 </body>
