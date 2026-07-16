@@ -44,12 +44,15 @@ def photo_edit():
     if request.method == 'POST':
         file = request.files['file']
         if file:
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(filepath)
+           # ပုံကို ဖတ်မယ်
+            input_image = Image.open(file)
+            # AI နဲ့ နောက်ခံဖျက်မယ်
+            output_image = remove(input_image)
             
-            # နောက်အဆင့်မှာ ဒီနေရာမှာ AI Logic ထည့်ပါမယ်
-            # အခုလောလောဆယ် Test အနေနဲ့ မူရင်းပုံကိုပဲ ပြထားပါတယ်
-            result_image = file.filename 
+            # ဖိုင်ကို သိမ်းမယ်
+            result_filename = "processed_" + file.filename
+            output_image.save(os.path.join(app.config['PROCESSED_FOLDER'], result_filename))
+            result_image = result_filename 
             
     return render_template('photo_edit.html', result_image=result_image)
 

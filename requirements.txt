@@ -2,3 +2,4 @@ Flask
 gunicorn
 flask_sqlalchemy
 youtube-transcript-api
+rembg
