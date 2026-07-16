@@ -29,7 +29,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 with app.app_context():
-    db.create_all()             
+    db.create_all()              
     # အမြဲ Login ဝင်နိုင်ရန် Admin User ထည့်ပေးခြင်း
     if not User.query.filter_by(username='admin').first():
         db.session.add(User(username='admin', password='password123', credit=50))
