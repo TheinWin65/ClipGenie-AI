@@ -7,19 +7,19 @@ from rembg import remove
 from PIL import Image
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clipgenie.db'
+# Database Path ကို Render အတွက် အမှန်ပြင်ထားသည်
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'clipgenie.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Database Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     credit = db.Column(db.Integer, default=50)
 
-# Database Setup (Indentation မှန်အောင် ရေးထားသည်)
 with app.app_context():
     db.create_all()
     if not User.query.filter_by(username='admin').first():
@@ -30,20 +30,6 @@ with app.app_context():
 def index():
     return render_template('login.html')
 
-@app.route('/login', methods=['POST'])
-def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    user = User.query.filter_by(username=username, password=password).first()
-    if user:
-        return redirect(url_for('dashboard'))
-    return "Login အဆင်မပြေပါ"
-
-@app.route('/dashboard')
-def dashboard():
-    user = User.query.filter_by(username='admin').first()
-    return render_template('dashboard.html', credit=user.credit if user else 0)
-
 @app.route('/photo-edit', methods=['GET', 'POST'])
 def photo_edit():
     result_image_b64 = None
@@ -52,13 +38,10 @@ def photo_edit():
         if file:
             input_image = Image.open(file)
             output_image = remove(input_image)
-            
-            # ပုံကို Memory ထဲတွင် Base64 အဖြစ် ပြောင်းလဲခြင်း
             buffered = io.BytesIO()
             output_image.save(buffered, format="PNG")
             result_image_b64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
-            
     return render_template('photo_edit.html', result_image=result_image_b64)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
