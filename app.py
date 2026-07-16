@@ -3,6 +3,9 @@ from database import db, init_db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clipgenie.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Database ကို စတင်ခေါ်ခြင်း
 init_db(app)
 
 @app.route('/')
@@ -11,11 +14,11 @@ def index():
 
 @app.route('/video-gen')
 def video_gen():
-    return "<h1>AI Video Generation Page</h1><p>ဒီမှာ ဗီဒီယိုဖန်တီးတဲ့အပိုင်း ဖြစ်လာပါမယ်။</p>"
+    return render_template('video_gen.html')
 
 @app.route('/photo-edit')
 def photo_edit():
-    return "<h1>AI Photo Editing Page</h1><p>ဒီမှာ ပုံပြင်ဆင်တဲ့အပိုင်း ဖြစ်လာပါမယ်။</p>"
+    return render_template('photo_edit.html')
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
