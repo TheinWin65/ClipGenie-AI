@@ -22,5 +22,5 @@ def photo_edit():
 
 if __name__ == '__main__':
     # Render အတွက် Port သတ်မှတ်ခြင်း (အရေးကြီးသည်)
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
