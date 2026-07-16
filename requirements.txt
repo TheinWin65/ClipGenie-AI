@@ -1,5 +1,5 @@
 flask
-flask-sqlalchemy
-rembg
-pillow
 gunicorn
+rembg[cpu]
+onnxruntime
+pillow
