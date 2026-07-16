@@ -5,14 +5,13 @@ from flask import Flask, render_template, request
 from rembg import remove
 from PIL import Image
 
-app = Flask(__name__)
+# templates folder ကို သေချာညွှန်းပေးထားသည်
+app = Flask(__name__, template_folder='templates')
 
-# Main Route - ပထမဆုံးဝင်တဲ့အခါ login.html ပြပေးမယ်
 @app.route('/')
 def index():
     return render_template('login.html')
 
-# Photo Edit Route
 @app.route('/photo-edit', methods=['GET', 'POST'])
 def photo_edit():
     result_image_b64 = None
