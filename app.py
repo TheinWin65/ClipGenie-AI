@@ -5,19 +5,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clipgenie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Database စတင်ခြင်း
 db.init_app(app)
 
-# Database ဖန်တီးခြင်း
 with app.app_context():
     db.create_all()
 
 @app.route('/')
 def index():
-    # ဥပမာအနေနဲ့ User တစ်ယောက်ရဲ့ Credit ကိုပြခြင်း
-    user = User.query.first() # လက်ရှိ Login ဝင်ထားသူ (နောက်ပိုင်းမှ ပြင်ပါမည်)
-    credit = user.credit if user else 0
-    return render_template('index.html', credit=credit)
+    # Database မှ User ရဲ့ Credit ကို ဆွဲထုတ်ခြင်း
+    user = User.query.first() 
+    credit_value = user.credit if user else 0
+    return render_template('index.html', credit=credit_value)
 
 @app.route('/video-gen')
 def video_gen():
@@ -27,11 +25,12 @@ def video_gen():
 def photo_edit():
     return render_template('photo_edit.html')
 
+@app.route('/history')
+def history():
+    return "မှတ်တမ်းများ ဤနေရာတွင် ပေါ်လာပါမည်။"
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        return f"လှိုက်လှဲစွာကြိုဆိုပါတယ် {username}!"
     return render_template('login.html')
 
 @app.route('/analyze', methods=['POST'])
