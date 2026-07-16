@@ -12,12 +12,15 @@ init_db(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        video_url = request.form.get('video_url')
-        # ဒီနေရာမှာ Video လင့်ခ်ကို လက်ခံပြီး AI နဲ့ အလုပ်လုပ်မယ့်နေရာဖြစ်လာမှာပါ
-        print(f"Received URL: {video_url}")
-        
     return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    video_url = request.form.get('video_url')
+    if video_url:
+        # ဒီနေရာမှာ AI နဲ့ လုပ်ဆောင်ချက်တွေကို နောက်မှ ထည့်သွင်းမှာပါ
+        return f"ဗီဒီယို {video_url} ကို AI နဲ့ ခွဲခြမ်းစိတ်ဖြာနေပါပြီ... ခဏစောင့်ပေးပါ။"
+    return "လင့်ခ်တစ်ခုခု ထည့်ပေးဖို့ လိုပါတယ်!"
 
 @app.route('/history')
 def history():
