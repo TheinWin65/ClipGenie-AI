@@ -35,6 +35,7 @@ def login():
 def dashboard():
     # ၃။ Dashboard မှာမှ မီနူးတွေနဲ့ လုပ်စရာတွေကို ပြမယ်
     user = User.query.filter_by(username='admin').first()
+    user_credit = user.credit if user else 0
     return render_template('dashboard.html', credit=user.credit)
 
 # ကျန်တဲ့ route များ (analyze, video-gen စသည်) ကိုလည်း ဤအတိုင်း ဆက်ရေးပါ
