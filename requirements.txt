@@ -1,5 +1,4 @@
 flask
 gunicorn
-rembg[cpu]
-onnxruntime
+rembg
 pillow
