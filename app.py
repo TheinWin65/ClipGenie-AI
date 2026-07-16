@@ -20,6 +20,13 @@ def video_gen():
 def photo_edit():
     return render_template('photo_edit.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        # နောက်ပိုင်း User Authentication စနစ်ထည့်ရန် နေရာ
+        return "Login အောင်မြင်ပါသည်!" 
+    return render_template('login.html')
+
 @app.route('/analyze', methods=['POST'])
 def analyze():
     video_url = request.form.get('video_url')
