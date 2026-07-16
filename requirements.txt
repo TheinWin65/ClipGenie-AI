@@ -1,6 +1,5 @@
-Flask
-gunicorn
-flask_sqlalchemy
-youtube-transcript-api
+flask
+flask-sqlalchemy
 rembg
 pillow
+gunicorn
