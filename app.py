@@ -1,12 +1,10 @@
-import os
-import base64
-import io
 from flask import Flask, render_template, request
 from rembg import remove
 from PIL import Image
+import io
+import base64
 
-# templates folder ကို သေချာညွှန်းပေးထားသည်
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -26,5 +24,4 @@ def photo_edit():
     return render_template('photo_edit.html', result_image=result_image_b64)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    app.run()
