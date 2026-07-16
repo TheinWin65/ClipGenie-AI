@@ -1,41 +1,65 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from models import db, User
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///clipgenie.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# ဓာတ်ပုံသိမ်းမည့်နေရာ
+UPLOAD_FOLDER = 'static/uploads'
+PROCESSED_FOLDER = 'static/processed'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PROCESSED_FOLDER'] = PROCESSED_FOLDER
+
 db.init_app(app)
 
-# Database ထဲမှာ user ရှိမရှိ စစ်ဆေးပြီး ထည့်ပေးခြင်း
+# Folder များ ရှိမရှိ စစ်ဆေးပြီး ဆောက်ပေးခြင်း
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(PROCESSED_FOLDER, exist_ok=True)
+
 with app.app_context():
     db.create_all()
-    if not User.query.filter_by(username='admin').first():
-        new_user = User(username='admin', password='123', credit=50)
-        db.session.add(new_user)
-        db.session.commit()
 
 @app.route('/')
 def index():
-    # ၁။ ပထမဆုံးဝင်လာရင် Login စာမျက်နှာကိုပဲ ပြမယ်
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
-    # ၂။ Login ဝင်ပြီးသွားရင် Dashboard ကို ပို့မယ်
     username = request.form.get('username')
     password = request.form.get('password')
     user = User.query.filter_by(username=username, password=password).first()
-    
     if user:
-        return redirect(url_for('dashboard')) # အောင်မြင်ရင် Dashboard သွား
-    else:
-        return "Username သို့မဟုတ် Password မှားယွင်းနေပါသည်။"
+        return redirect(url_for('dashboard'))
+    return "Login အဆင်မပြေပါ"
 
 @app.route('/dashboard')
 def dashboard():
-    # ၃။ Dashboard မှာမှ မီနူးတွေနဲ့ လုပ်စရာတွေကို ပြမယ်
     user = User.query.filter_by(username='admin').first()
-    user_credit = user.credit if user else 0
-    return render_template('dashboard.html', credit=user.credit)
+    return render_template('dashboard.html', credit=user.credit if user else 0)
 
-# ကျန်တဲ့ route များ (analyze, video-gen စသည်) ကိုလည်း ဤအတိုင်း ဆက်ရေးပါ
+@app.route('/photo-edit', methods=['GET', 'POST'])
+def photo_edit():
+    result_image = None
+    if request.method == 'POST':
+        file = request.files['file']
+        if file:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(filepath)
+            
+            # နောက်အဆင့်မှာ ဒီနေရာမှာ AI Logic ထည့်ပါမယ်
+            # အခုလောလောဆယ် Test အနေနဲ့ မူရင်းပုံကိုပဲ ပြထားပါတယ်
+            result_image = file.filename 
+            
+    return render_template('photo_edit.html', result_image=result_image)
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    return "Analyzing video..."
+
+@app.route('/video-gen')
+def video_gen():
+    return render_template('video_gen.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)

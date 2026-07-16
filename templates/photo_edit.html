@@ -2,38 +2,35 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <title>AI Photo Editing</title>
+    <title>AI Photo Editor - ClipGenie</title>
     <style>
-        body { font-family: sans-serif; background-color: #0f172a; color: white; margin: 0; padding-bottom: 80px; }
-        .container { max-width: 600px; margin: auto; padding: 20px; text-align: center; }
-        .card { background: #1e293b; padding: 30px; border-radius: 15px; }
-        input[type="file"] { margin-top: 20px; }
-        button { background: #8b5cf6; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px; }
-        
-        /* Bottom Nav CSS */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #334155; }
-        .nav-item { color: #94a3b8; text-decoration: none; font-size: 12px; text-align: center; }
-        .nav-item:hover { color: white; }
+        body { font-family: sans-serif; background-color: #0f172a; color: white; padding: 20px; }
+        .card { background: #1e293b; padding: 30px; border-radius: 20px; max-width: 600px; margin: auto; text-align: center; }
+        input[type="file"] { margin: 20px 0; display: block; margin-left: auto; margin-right: auto; }
+        button { background: #3b82f6; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; }
+        .result-area { margin-top: 30px; padding: 20px; border-top: 1px solid #334155; }
+        img { max-width: 100%; border-radius: 10px; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>🖼️ AI Photo Editing</h1>
-        <p>ပြင်ဆင်လိုသော ပုံကို ရွေးချယ်ပါ</p>
-        <input type="file" accept="image/*">
-        <br>
-        <button>Remove Background</button>
-        <button>Enhance Quality</button>
-    </div>
-</div>
+<div class="card">
+    <h2>AI Background Removal</h2>
+    <p>ပုံကိုတင်ပြီး နောက်ခံဖျက်လိုက်ပါ</p>
+    
+    <form action="/photo-edit" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">AI ဖြင့် စတင်ဖျက်မည်</button>
+    </form>
 
-<div class="bottom-nav">
-    <a href="/" class="nav-item">🏠<br>Home</a>
-    <a href="/video-gen" class="nav-item">🎥<br>Create</a>
-    <a href="/photo-edit" class="nav-item">🖼️<br>Edit</a>
-    <a href="/history" class="nav-item">📜<br>History</a>
+    {% if result_image %}
+    <div class="result-area">
+        <h3>ရလဒ် (Background ဖျက်ပြီး)</h3>
+        <img src="{{ url_for('static', filename='processed/' + result_image) }}" alt="Result">
+        <br><br>
+        <a href="/dashboard"><button style="background: #64748b;">Dashboard သို့ ပြန်သွားမည်</button></a>
+    </div>
+    {% endif %}
 </div>
 
 </body>
