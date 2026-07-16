@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <h1>Photo Background Remover</h1>
+    <h1>Background Remover</h1>
     <form method="POST" enctype="multipart/form-data">
         <input type="file" name="file" required>
-        <button type="submit">Upload & Remove</button>
+        <button type="submit">Remove Background</button>
     </form>
-    
     {% if result_image %}
-        <h2>Result:</h2>
         <img src="data:image/png;base64,{{ result_image }}">
     {% endif %}
 </body>
