@@ -19,7 +19,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     credit = db.Column(db.Integer, default=50)
 
-# App စတင်ချိန်တွင် Database တည်ဆောက်ခြင်း
+# Database Setup (Indentation မှန်အောင် ရေးထားသည်)
 with app.app_context():
     db.create_all()
     if not User.query.filter_by(username='admin').first():
@@ -53,7 +53,7 @@ def photo_edit():
             input_image = Image.open(file)
             output_image = remove(input_image)
             
-            # ပုံကို Base64 အဖြစ် ပြောင်းခြင်း (Folder သိမ်းစရာမလိုတော့ပါ)
+            # ပုံကို Memory ထဲတွင် Base64 အဖြစ် ပြောင်းလဲခြင်း
             buffered = io.BytesIO()
             output_image.save(buffered, format="PNG")
             result_image_b64 = base64.b64encode(buffered.getvalue()).decode('utf-8')
